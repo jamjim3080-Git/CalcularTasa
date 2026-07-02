@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora P2P Binance</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <main class="glass-container">
+        <header>
+            <h1>Calculadora de Tasa P2P</h1>
+            <p>Calcula tu tasa de cambio COP a VES incluyendo tu margen de ganancia, basado en precios en tiempo real de Binance.</p>
+        </header>
+
+        <section class="calculator-section">
+            <div class="input-group">
+                <label for="inputCop">Monto en Pesos Colombianos (COP)</label>
+                <input type="number" id="inputCop" value="100000" min="0" step="1000">
+            </div>
+
+            <div class="input-group">
+                <label for="inputMargin">Margen de Ganancia (%)</label>
+                <input type="number" id="inputMargin" value="8" min="0" max="100" step="0.5">
+            </div>
+
+            <button id="calculateBtn" class="primary-btn">
+                <span class="btn-text">Calcular Tasa</span>
+                <span class="loader hidden"></span>
+            </button>
+        </section>
+
+        <section id="resultsSection" class="results-section hidden">
+            <div class="result-card highlight">
+                <h3>Tasa a ofrecer al cliente</h3>
+                <div class="rate-value"><span id="finalRate">0.00</span> <small>COP / VES</small></div>
+                <p class="rate-subtitle">Por cada 1 VES, el cliente paga <span id="finalRateText">0.00</span> COP</p>
+            </div>
+
+            <div class="market-data">
+                <div class="data-card">
+                    <h4>Compra USDT (Bancolombia)</h4>
+                    <p class="price" id="buyPrice">Cargando...</p>
+                    <p class="merchant" id="buyMerchant">-</p>
+                </div>
+                <div class="data-card">
+                    <h4>Venta USDT (Banesco)</h4>
+                    <p class="price" id="sellPrice">Cargando...</p>
+                    <p class="merchant" id="sellMerchant">-</p>
+                </div>
+            </div>
+
+            <div class="details-card">
+                <h4>Desglose de la Operación</h4>
+                <ul>
+                    <li>Monto Bruto: <strong id="detailGross">0</strong> COP</li>
+                    <li>Ganancia (<span id="detailMarginPct">8</span>%): <strong id="detailProfit">0</strong> COP</li>
+                    <li>Capital para operar: <strong id="detailCapital">0</strong> COP</li>
+                    <li>USDT Comprados: <strong id="detailUsdt">0</strong> USDT</li>
+                    <li>VES Obtenidos: <strong id="detailVes">0</strong> VES</li>
+                </ul>
+            </div>
+        </section>
+
+        <div id="errorMsg" class="error-msg hidden"></div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
