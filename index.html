@@ -4,7 +4,307 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora P2P Binance</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+:root {
+    --bg-color: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --success: #10b981;
+    --danger: #ef4444;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Fondo animado premium */
+.background-blobs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.5;
+    animation: float 20s infinite ease-in-out;
+}
+
+.blob-1 {
+    width: 400px;
+    height: 400px;
+    background: #3b82f6;
+    top: -100px;
+    left: -100px;
+    animation-delay: 0s;
+}
+
+.blob-2 {
+    width: 300px;
+    height: 300px;
+    background: #8b5cf6;
+    bottom: -50px;
+    right: -50px;
+    animation-delay: -5s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+/* Contenedor Glassmorphism */
+.glass-container {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    margin: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.primary-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.primary-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
+}
+
+.primary-btn:active {
+    transform: translateY(0);
+}
+
+/* Resultados */
+.results-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hidden {
+    display: none !important;
+}
+
+.result-card.highlight {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.result-card h3 {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.rate-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.rate-value small {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.rate-subtitle {
+    font-size: 0.875rem;
+    color: var(--success);
+}
+
+.market-data {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.data-card {
+    flex: 1;
+    background: rgba(15, 23, 42, 0.4);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.data-card h4 {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.data-card .price {
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.data-card .merchant {
+    font-size: 0.75rem;
+    color: var(--accent);
+    margin-top: 0.25rem;
+}
+
+.details-card {
+    background: rgba(15, 23, 42, 0.4);
+    padding: 1.25rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.details-card h4 {
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.details-card ul {
+    list-style: none;
+}
+
+.details-card li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.details-card li strong {
+    color: var(--text-primary);
+}
+
+.error-msg {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--danger);
+    border-radius: 12px;
+    color: #fca5a5;
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+/* Loader */
+.loader {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+</style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -73,6 +373,169 @@
         <div id="errorMsg" class="error-msg hidden"></div>
     </main>
 
-    <script src="script.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const calculateBtn = document.getElementById('calculateBtn');
+    const inputCop = document.getElementById('inputCop');
+    const inputMargin = document.getElementById('inputMargin');
+    
+    // Elements to display results
+    const resultsSection = document.getElementById('resultsSection');
+    const finalRate = document.getElementById('finalRate');
+    const finalRateText = document.getElementById('finalRateText');
+    const buyPriceEl = document.getElementById('buyPrice');
+    const buyMerchantEl = document.getElementById('buyMerchant');
+    const sellPriceEl = document.getElementById('sellPrice');
+    const sellMerchantEl = document.getElementById('sellMerchant');
+    
+    // Details
+    const detailGross = document.getElementById('detailGross');
+    const detailMarginPct = document.getElementById('detailMarginPct');
+    const detailProfit = document.getElementById('detailProfit');
+    const detailCapital = document.getElementById('detailCapital');
+    const detailUsdt = document.getElementById('detailUsdt');
+    const detailVes = document.getElementById('detailVes');
+    
+    const errorMsg = document.getElementById('errorMsg');
+    
+    calculateBtn.addEventListener('click', async () => {
+        // Reset UI
+        errorMsg.classList.add('hidden');
+        resultsSection.classList.add('hidden');
+        calculateBtn.querySelector('.btn-text').classList.add('hidden');
+        calculateBtn.querySelector('.loader').classList.remove('hidden');
+        calculateBtn.disabled = true;
+
+        const amountCop = parseFloat(inputCop.value) || 0;
+        const marginPct = parseFloat(inputMargin.value) || 0;
+
+        if (amountCop <= 0) {
+            showError('Por favor ingresa un monto válido en COP.');
+            resetButton();
+            return;
+        }
+
+        try {
+            // 1. Calcular Ganancia y Capital a invertir
+            const marginDecimal = marginPct / 100;
+            const profit = amountCop * marginDecimal;
+            const capital = amountCop - profit;
+
+            // Obtener precio COP usando el capital como filtro
+            const copData = await fetchPrice('COP', 'BUY', ['BancolombiaSA'], capital);
+            if (!copData) {
+                throw new Error('No se encontraron anuncios de compra en Binance.');
+            }
+            const buyPrice = parseFloat(copData.price);
+            
+            // 3. Comprar USDT
+            const usdtBought = capital / buyPrice;
+
+            // SOLUCIÓN AL CÁLCULO DE BOLÍVARES:
+            // Paso A: Obtener precio general sin monto para estimar
+            const vesDataGeneral = await fetchPrice('VES', 'SELL', ['Banesco']);
+            if (!vesDataGeneral) {
+                throw new Error('No se encontraron anuncios de venta en Binance.');
+            }
+            const estimatedVesPrice = parseFloat(vesDataGeneral.price);
+            const estimatedVesAmount = usdtBought * estimatedVesPrice;
+
+            // Paso B: Hacer la búsqueda real filtrando por el monto exacto estimado
+            let vesData = await fetchPrice('VES', 'SELL', ['Banesco'], estimatedVesAmount);
+            if (!vesData) {
+                // Fallback por si la búsqueda exacta no arroja resultados
+                vesData = vesDataGeneral;
+            }
+            const sellPrice = parseFloat(vesData.price);
+
+            // Update UI with market data
+            buyPriceEl.textContent = `${buyPrice.toLocaleString('es-CO')} COP`;
+            buyMerchantEl.textContent = copData.merchant;
+            sellPriceEl.textContent = `${sellPrice.toLocaleString('es-VE')} VES`;
+            sellMerchantEl.textContent = vesData.merchant;
+            
+            // 4. Vender USDT por VES usando el precio real filtrado
+            const vesReceived = usdtBought * sellPrice;
+            
+            // 5. Tasa final (COP por cada 1 VES)
+            const exchangeRate = amountCop / vesReceived;
+
+            // Update Details UI
+            detailGross.textContent = amountCop.toLocaleString('es-CO');
+            detailMarginPct.textContent = marginPct;
+            detailProfit.textContent = profit.toLocaleString('es-CO');
+            detailCapital.textContent = capital.toLocaleString('es-CO');
+            detailUsdt.textContent = usdtBought.toFixed(4);
+            detailVes.textContent = vesReceived.toLocaleString('es-VE', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+            // Update Final Rate
+            finalRate.textContent = exchangeRate.toFixed(4);
+            finalRateText.textContent = exchangeRate.toFixed(4);
+
+            // Show results
+            resultsSection.classList.remove('hidden');
+            
+        } catch (error) {
+            showError(error.message);
+        } finally {
+            resetButton();
+        }
+    });
+
+    async function fetchPrice(fiat, tradeType, payTypes, transAmount = null) {
+        const payload = { fiat, tradeType, payTypes };
+        if (transAmount) {
+            payload.transAmount = transAmount;
+        }
+        
+        // MODO PRUEBA LOCAL (file://)
+        // Como los proxys públicos fallan, simulamos la respuesta con los datos
+        // reales que obtuvimos anteriormente, solo para que puedas probar la calculadora.
+        if (window.location.protocol === 'file:') {
+            await new Promise(resolve => setTimeout(resolve, 800)); // Simular retraso de red
+            if (fiat === 'COP') {
+                return { price: "3356.00", merchant: "NabiGo (Dato Simulado)" };
+            } else {
+                return { price: "737.900", merchant: "wilce84 (Dato Simulado)" };
+            }
+        }
+
+        // Si estamos en Vercel, usamos la API local
+        try {
+            const res = await fetch('/api/prices', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            
+            if (!res.ok) throw new Error('Error en el servidor API');
+            
+            const data = await res.json();
+            if (data.data && data.data.length > 0) {
+                return {
+                    price: data.data[0].adv.price,
+                    merchant: data.data[0].advertiser.nickName
+                };
+            }
+            return null;
+        } catch (e) {
+            throw new Error("No se pudo conectar. Si estás en local, el servidor de Vercel no está disponible.");
+        }
+    }
+
+    function showError(msg) {
+        errorMsg.textContent = msg;
+        errorMsg.classList.remove('hidden');
+    }
+
+    function resetButton() {
+        calculateBtn.querySelector('.btn-text').classList.remove('hidden');
+        calculateBtn.querySelector('.loader').classList.add('hidden');
+        calculateBtn.disabled = false;
+    }
+});
+
+</script>
 </body>
 </html>
+
